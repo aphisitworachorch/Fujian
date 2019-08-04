@@ -29,13 +29,17 @@ def getstudent_name(stdid):
     ))
     r.encoding = r.apparent_encoding
     sr = BeautifulSoup(r.text, 'html.parser')
-    
+
     namet = []
     for mmp in sr.find_all('font', attrs={'face': 'MS Sans Serif', 'size': '3'}):
         namet.append(mmp.find("font").text)
 
-    mrx = re.sub('<.*?>', '', str(namet[0])).replace('\xa0', '')
-    xm = mrx.strip("[]")
+    try:
+        mrx = re.sub('<.*?>', '', str(namet[0])).replace('\xa0', '')
+        xm = mrx.strip("[]")
+    except IndexError:
+        xm = "Error To Get"
+
     return xm
 
 def getstudentenrollment(url):
@@ -94,14 +98,16 @@ def sanitizehtml(content,lengthweb):
 
     return fullcontent
 
+
 def getsanit_subject_without_groupnum(fullcontent):
+    vx = 0
     withoutgroupnum = []
     i = 0
     for respond in fullcontent:
         if i % 2 == 0:
             withoutgroupnum.append(respond)
         else:
-            print()
+            vx = vx + 1
         i = i + 1
 
     return withoutgroupnum
