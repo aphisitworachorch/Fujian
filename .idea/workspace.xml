@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="1b2503ae-a9f1-43b8-8dd5-47f0b933f09f" name="Default Changelist" comment="" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Flask Main" />
+        <option value="Python Script" />
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1P8OMNuTHIQK9lT9P1ROJdnWZIp" />
+  <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/app.py" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Projects\Docker\Python\FujianWebService" />
+      <recent name="D:\Projects\Docker\Python\FujianWebService\app" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="FujianWebService" type="Python.FlaskServer">
+      <module name="FujianWebService" />
+      <option name="target" value="$PROJECT_DIR$/fjweb.py" />
+      <option name="targetType" value="PATH" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="C:\ProgramData\Anaconda3\envs\FujianWebService\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1b2503ae-a9f1-43b8-8dd5-47f0b933f09f" name="Default Changelist" comment="" />
+      <created>1565252208090</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1565252208090</updated>
+      <workItem from="1565252210401" duration="5676000" />
+      <workItem from="1565268010482" duration="603000" />
+      <workItem from="1565359881146" duration="2952000" />
+      <workItem from="1565521235814" duration="18000" />
+      <workItem from="1565716632612" duration="1853000" />
+      <workItem from="1565800409005" duration="90000" />
+      <workItem from="1565963402362" duration="319000" />
+      <workItem from="1566203546214" duration="1215000" />
+      <workItem from="1567501641188" duration="734000" />
+      <workItem from="1567502496946" duration="122000" />
+      <workItem from="1567783175390" duration="1639000" />
+      <workItem from="1568616750778" duration="258000" />
+      <workItem from="1568619075188" duration="601000" />
+      <workItem from="1568637998428" duration="2266000" />
+      <workItem from="1568812757458" duration="70000" />
+      <workItem from="1568812910074" duration="28000" />
+      <workItem from="1568814422223" duration="316000" />
+      <workItem from="1570030318548" duration="246000" />
+      <workItem from="1570072485816" duration="28000" />
+      <workItem from="1570073207101" duration="87000" />
+      <workItem from="1570082603063" duration="1429000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/FujianWebService$FujianWebService.coverage" NAME="FujianWebService Coverage Results" MODIFIED="1570082758802" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+</project>
