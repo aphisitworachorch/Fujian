@@ -2,9 +2,9 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ v2-docker ]
   pull_request:
-    branches: [ master ]
+    branches: [ v2-docker ]
 
 jobs:
 
@@ -13,6 +13,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag fujian-docker-:$(date +%s)
+    - uses: jiraista/sut_fujian_web
+    - name: sut_fujian_web
+      run: docker build . --file Dockerfile --tag sut_fujian_web_:$(date +%s)
