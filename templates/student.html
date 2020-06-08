@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Information</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+</head>
+<body>
+<div class="container-fluid"  style="text-align:center;">
+    <div class="container-fluid">
+        <h3>Fujianly</h3>
+        <img src="https://reg5.sut.ac.th/registrar/images/common/misc/key.gif"/>
+    </div>
+    <br>
+    <h3>ข้อมูลของนักศึกษาจากระบบทะเบียนนักศึกษามหาวิทยาลัยเทคโนโลยีสุรนารี</h3>
+    <hr>
+    <h5>นักศึกษาชั้นปีที่ {{ yr }} ระดับการศึกษา {{ degree }}</h5>
+    <h1 style="text-align:center;">รหัสนักศึกษา {{ student_id }}</h1>
+    <hr>
+    <div class="row" style="text-align:center;">
+        <div class="col-lg-4">
+            <h5>ชื่อ {{ student_name }}</h5>
+        </div>
+        <div class="col-lg-4">
+            <h5>อาจารย์ที่ปรึกษา {{ assistant }}</h5>
+        </div>
+        <div class="col-lg-4">
+            <h5>{{ institute }}</h5>
+        </div>
+    </div>
+    <div class="row" style="text-align:center;">
+        <div class="col-lg-12">
+            <h5>หลักสูตร {{ minor }}</h5>
+        </div>
+    </div>
+    <hr>
+    <div class="table-responsive">
+    <table class="table border">
+    <thead>
+        <th>รายวิชาที่ลง</th>
+    </thead>
+    <tbody>
+    {% for i in range(0,lensub) %}
+        <tr>
+            <td>รายวิชาที่ {{ i+1 }} รหัสวิชาที่ลง <br>{{ subject[i] }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+
+    </div>
+</div>
+</body>
+</html>
