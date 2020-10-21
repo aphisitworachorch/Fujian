@@ -41,7 +41,7 @@ def getStudentEnroll(student_id):
         "institute": institute,
         "minor": minor,
         "assistant": assistant,
-        "enroll_subjects": subject,
+        "enroll_subjects": subject_id,
         "enroll_subjects_name": subject_name,
         "year_of_student": calculate
     }
@@ -75,7 +75,7 @@ def getStudentHTML(student_id):
     return render_template('student.html',
                            degree=degree,
                            yr=calculate,
-                           lensub=len(subject),
+                           lensub=len(subject_id),
                            subject_id=subject_id,
                            subject_name=subject_name,
                            student_name=student_name,
