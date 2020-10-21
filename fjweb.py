@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-    return 'Hello World!'
+    return 'Fujian SD2E'
 
 
 @app.route('/student/<student_id>', methods=['POST'])
@@ -19,12 +19,21 @@ def getStudentEnroll(student_id):
     prefix = str(fujian.identifyStudentID(student_id)["number"])
     degree = str(fujian.identifyStudentID(student_id)["degree"])
     fetchstudent_info = fujian.fetchall(prefix + "" + str(student_id)[1:10])
-    student_enroll = fujian.getstudentenrollment(fetchstudent_info)
+    subject_id = fujian.getstudentenrollment_id(fetchstudent_info)
     raw_student = fujian.getstudentenrollment_raw(fetchstudent_info)
-    subject = fujian.getsanit_subject_without_groupnum(student_enroll)
+    subject = fujian.getsanit_subject_without_groupnum(subject_id)
+    subject_name = fujian.getstudentenrollment_name(fetchstudent_info)
     institute = fujian.getinstitute(raw_student)
     minor = fujian.getminor(raw_student)
     assistant = fujian.getassistant(raw_student)
+
+    calculate = 0
+    averagegraduation = 0
+    now = datetime.datetime.now()
+    if (int(now.year + 543) % 100) - (int(yearofstudent)) <= 0:
+        calculate = 1
+    else:
+        calculate = (int(now.year + 543) % 100) - (int(yearofstudent))
 
     data = {
         "student_id": student_id,
@@ -32,7 +41,9 @@ def getStudentEnroll(student_id):
         "institute": institute,
         "minor": minor,
         "assistant": assistant,
-        "enroll_subjects": subject
+        "enroll_subjects": subject,
+        "enroll_subjects_name": subject_name,
+        "year_of_student": calculate
     }
     return jsonify(data)
 
@@ -44,10 +55,11 @@ def getStudentHTML(student_id):
     student_id = student_id
     prefix = str(fujian.identifyStudentID(student_id)["number"])
     degree = str(fujian.identifyStudentID(student_id)["degree"])
-    fetchstudent_info = fujian.fetchall(prefix+""+str(student_id)[1:10])
-    student_enroll = fujian.getstudentenrollment(fetchstudent_info)
+    fetchstudent_info = fujian.fetchall(prefix + "" + str(student_id)[1:10])
+    subject_id = fujian.getstudentenrollment_id(fetchstudent_info)
     raw_student = fujian.getstudentenrollment_raw(fetchstudent_info)
-    subject = fujian.getsanit_subject_without_groupnum(student_enroll)
+    subject = fujian.getsanit_subject_without_groupnum(subject_id)
+    subject_name = fujian.getstudentenrollment_name(fetchstudent_info)
     institute = fujian.getinstitute(raw_student)
     minor = fujian.getminor(raw_student)
     assistant = fujian.getassistant(raw_student)
@@ -55,13 +67,17 @@ def getStudentHTML(student_id):
     calculate = 0
     averagegraduation = 0
     now = datetime.datetime.now()
-    calculate = (int(now.year + 543) % 100) - (int(yearofstudent)) + 1
+    if (int(now.year + 543) % 100) - (int(yearofstudent)) <= 0:
+        calculate = 1
+    else:
+        calculate = (int(now.year + 543) % 100) - (int(yearofstudent))
 
     return render_template('student.html',
                            degree=degree,
                            yr=calculate,
                            lensub=len(subject),
-                           subject=subject,
+                           subject_id=subject_id,
+                           subject_name=subject_name,
                            student_name=student_name,
                            student_id=student_id,
                            institute=institute,
