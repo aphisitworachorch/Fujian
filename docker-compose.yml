@@ -2,7 +2,7 @@ version: '2.4'
 
 services:
   web:
-    container_name: jiraista/fujian_redis
+    container_name: sut_fujian_web
     build: ./
     ports:
       - 5000:5000
