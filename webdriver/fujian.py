@@ -1,7 +1,8 @@
 # FUJIAN Discovery tool for SUT REG
 # !Python
-
+import datetime
 import re
+
 import requests
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
@@ -80,7 +81,7 @@ def getstudentenrollment_name(url):
     table_reg = webpage.find_all('tr', attrs={'valign': 'TOP'})
     for tb in table_reg:
         find_other_second_step = tb.find('font', attrs={'face': 'MS Sans Serif', 'size': '2'})
-        data_name.append(regex_sanitize(find_other_second_step))
+        data_name.append(subject_regex_sanitize(find_other_second_step))
 
     del data_name[0]
     return data_name
@@ -98,6 +99,11 @@ def getstudentenrollment_raw(url):
         subject.append(web[v])
 
     return subject
+
+
+def subject_regex_sanitize(content):
+    st = re.sub('<br.*?>', ' - ', str(content))
+    return re.sub('<.*?>', '', str(st)).replace('\xa0', '')
 
 
 def regex_sanitize(content):

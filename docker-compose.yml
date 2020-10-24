@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  web:
+    container_name: jiraista/fujian_redis
+    build: ./
+    ports:
+      - 5000:5000
+    depends_on:
+      - redis
+    links:
+      - redis
+
+  redis:
+    image: redis:alpine

@@ -4,6 +4,9 @@
     <list default="true" id="1b2503ae-a9f1-43b8-8dd5-47f0b933f09f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fjweb.py" beforeDir="false" afterPath="$PROJECT_DIR$/fjweb.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/student.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/student.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webdriver/fujian.py" beforeDir="false" afterPath="$PROJECT_DIR$/webdriver/fujian.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +107,13 @@
       <workItem from="1590382232682" duration="262000" />
       <workItem from="1590455393700" duration="71000" />
       <workItem from="1603264155667" duration="388000" />
-      <workItem from="1603265140126" duration="253000" />
+      <workItem from="1603265140126" duration="309000" />
+      <workItem from="1603267610269" duration="393000" />
+      <workItem from="1603268514345" duration="10595000" />
+      <workItem from="1603383341747" duration="3034000" />
+      <workItem from="1603421879620" duration="4693000" />
+      <workItem from="1603430006176" duration="5515000" />
+      <workItem from="1603526044985" duration="887000" />
     </task>
     <servers />
   </component>

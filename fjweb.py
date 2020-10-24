@@ -1,9 +1,20 @@
 from flask import Flask, render_template
+
 from webdriver import fujian
 from flask import jsonify
+from flask_caching import Cache
+
 import datetime
+import redis
 
 app = Flask(__name__)
+r = redis.Redis(host=redis)
+
+cache = Cache(app, config={
+    'CACHE_TYPE': 'redis',
+    'CACHE_KEY_PREFIX': 'fujian_',
+    'CACHE_REDIS_HOST': 'redis',
+    'CACHE_REDIS_PORT': '6379'})
 
 
 @app.route('/')
@@ -45,9 +56,16 @@ def getStudentEnroll(student_id):
         "enroll_subjects_name": subject_name,
         "year_of_student": calculate
     }
-    return jsonify(data)
+
+    redis_data = cache.get(student_id)
+    if redis_data is None:
+        cache.set(student_id, data)
+        return jsonify(data)
+    else:
+        return jsonify(redis_data)
 
 
+@cache.cached(timeout=50, key_prefix='page')
 @app.route('/student/<student_id>', methods=['GET'])
 def getStudentHTML(student_id):
     yearofstudent = str(student_id)[1:3]
