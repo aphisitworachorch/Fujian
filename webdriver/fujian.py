@@ -47,6 +47,16 @@ def fetchall(studentid):
     return require_page
 
 
+def fetchall_eduyear(studentid, eduyear):
+    require_page = 'https://reg.sut.ac.th/registrar/learn_time.asp?studentid=' + studentid + '&f_cmd=2&acadyear=' + eduyear
+    return require_page
+
+
+def fetchall_eduyear_term(studentid, eduyear, term):
+    require_page = 'https://reg.sut.ac.th/registrar/learn_time.asp?studentid=' + studentid + '&f_cmd=2&acadyear=' + eduyear + '&maxsemester=' + term
+    return require_page
+
+
 def urlreturn(stdid):
     require_page = 'https://reg.sut.ac.th/registrar/learn_time.asp?studentid=' + stdid + '&f_cmd=2'
     return require_page
