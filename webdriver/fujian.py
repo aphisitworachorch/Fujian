@@ -21,6 +21,24 @@ def identifyStudentID(studentid):
     elif str(studentid)[0] == "D":
         info["number"] = 3
         info["degree"] = "ปริญญาเอก"
+    elif str(studentid)[0] == "A":
+        info["number"] = 8
+        info["degree"] = "ผู้ร่วมเรียน / สอบเข้าใหม่ / ทดสอบระบบ"
+    elif str(studentid)[0] == "C":
+        info["number"] = 4
+        info["degree"] = "ผู้ร่วมเรียน / สอบเข้าใหม่ / ทดสอบระบบ"
+    elif str(studentid)[0] == "G":
+        info["number"] = 6
+        info["degree"] = "ผู้ร่วมเรียน / สอบเข้าใหม่ / ทดสอบระบบ"
+    elif str(studentid)[0] == "I":
+        info["number"] = 5
+        info["degree"] = "ผู้ร่วมเรียน / สอบเข้าใหม่ / ทดสอบระบบ"
+    elif str(studentid)[0] == "V":
+        info["number"] = 9
+        info["degree"] = "ผู้ร่วมเรียน / สอบเข้าใหม่ / ทดสอบระบบ"
+    elif str(studentid)[0] == "X":
+        info["number"] = 7
+        info["degree"] = "ผู้ร่วมเรียน / สอบเข้าใหม่ / ทดสอบระบบ"
     return info
 
 

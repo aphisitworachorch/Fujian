@@ -39,7 +39,6 @@ def getStudentEnroll(student_id):
     assistant = fujian.getassistant(raw_student)
 
     calculate = 0
-    averagegraduation = 0
     now = datetime.datetime.now()
     if (int(now.year + 543) % 100) - (int(yearofstudent)) <= 0:
         calculate = 1
@@ -65,8 +64,8 @@ def getStudentEnroll(student_id):
         return jsonify(redis_data)
 
 
-@cache.cached(timeout=50, key_prefix='page')
 @app.route('/student/<student_id>', methods=['GET'])
+@cache.cached(timeout=50, key_prefix='page')
 def getStudentHTML(student_id):
     yearofstudent = str(student_id)[1:3]
     student_name = fujian.getstudent_name(student_id)
@@ -83,7 +82,6 @@ def getStudentHTML(student_id):
     assistant = fujian.getassistant(raw_student)
 
     calculate = 0
-    averagegraduation = 0
     now = datetime.datetime.now()
     if (int(now.year + 543) % 100) - (int(yearofstudent)) <= 0:
         calculate = 1
@@ -104,4 +102,4 @@ def getStudentHTML(student_id):
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=False, host='0.0.0.0')

@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1b2503ae-a9f1-43b8-8dd5-47f0b933f09f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fjweb.py" beforeDir="false" afterPath="$PROJECT_DIR$/fjweb.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webdriver/fujian.py" beforeDir="false" afterPath="$PROJECT_DIR$/webdriver/fujian.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,7 +111,8 @@
       <workItem from="1603383341747" duration="3034000" />
       <workItem from="1603421879620" duration="4693000" />
       <workItem from="1603430006176" duration="5515000" />
-      <workItem from="1603526044985" duration="2646000" />
+      <workItem from="1603526044985" duration="2991000" />
+      <workItem from="1605511130598" duration="643000" />
     </task>
     <servers />
   </component>
