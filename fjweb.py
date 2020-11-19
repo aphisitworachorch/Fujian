@@ -152,7 +152,7 @@ def getStudentEnroll_EDUYEAR_TERM(student_id, eduyear, term):
 
 
 @app.route('/student/<student_id>', methods=['GET'])
-@cache.cached(timeout=50, key_prefix='page')
+@cache.cached(timeout=50, key_prefix='page_<student_id>')
 def getStudentHTML(student_id):
     yearofstudent = str(student_id)[1:3]
     student_name = fujian.getstudent_name(student_id)
