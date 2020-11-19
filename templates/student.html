@@ -5,34 +5,65 @@
     <title>Student Information</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@200;500&display=swap" rel="stylesheet">
+    <meta property="og:title" content="福建 Python SUT REG Scraper" />
+    <meta property="og:type" content="website" />
 </head>
+<style>
+    * {
+        font-family: 'Sarabun', sans-serif;
+    }
+    h1,h2,h3,h4,h5 {
+        font-weight: 500;
+    }
+    p,table,tr,td,th,thead,tbody {
+        font-weight: 200;
+    }
+</style>
 <body>
+<div class="container-fluid" style="background-color:red;color:white;text-align: center;padding:-20px;position:fixed;overflow:auto;top:0;left:0;">
+    <p>Alpha Period since End-of-2020</p>
+</div>
+<br/>
+<br/>
 <div class="container-fluid">
-    <div class="container" style="text-align: center">
+    <div class="container-fluid" style="text-align: center">
         <div class="container-fluid">
+            <br/>
+            <h1 style="color:blueviolet;font-size:70px">福建</h1>
             <h3>Fujian SUT Registrar</h3>
-            <img src="https://reg5.sut.ac.th/registrar/images/common/misc/key.gif"/>
         </div>
         <br>
         <h3>ข้อมูลของนักศึกษาจากระบบทะเบียนนักศึกษามหาวิทยาลัยเทคโนโลยีสุรนารี</h3>
         <hr>
-        <h5>นักศึกษาชั้นปีที่ {{ yr }} ระดับการศึกษา {{ degree }}</h5>
-        <h1 style="text-align:center;">รหัสนักศึกษา {{ student_id }}</h1>
+        <div class="row" style="top:0;">
+            <div class="col-6">
+                <h3>นักศึกษาชั้นปีที่</h3> <br/> <h2>{{ yr }}</h2>
+            </div>
+            <div class="col-6">
+                <h3>ระดับการศึกษา</h3> <br/> <h4>{{ degree }}</h4>
+            </div>
+        </div>
         <hr>
-        <div class="row" style="text-align:center;">
-            <div class="col-lg-4">
+        <div class="row" style="text-align:center;top:0;">
+            <div class="col-lg-3">
+                <h4>รหัสนักศึกษา {{ student_id }}</h4>
+            </div>
+            <div class="col-lg-3">
                 <h5>ชื่อ {{ student_name }}</h5>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 <h5>อาจารย์ที่ปรึกษา {{ assistant }}</h5>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 <h5>{{ institute }}</h5>
             </div>
         </div>
-        <div class="row" style="text-align:center;">
+        <hr/>
+        <div class="row" style="text-align:center;top:0;">
             <div class="col-lg-12">
-                <h5>หลักสูตร {{ minor }}</h5>
+                <h4>หลักสูตร {{ minor }}</h4>
             </div>
         </div>
     </div>
@@ -45,13 +76,26 @@
             <tbody>
             {% for i in range(0,lensub) %}
             <tr>
-                <td> <div class="btn btn-info">รายวิชาที่ {{ i+1 }}</div><br/> รหัสวิชาที่ลง <br>{{ subject_id[i] }} <br> วิชา {{ subject_name[i] }}</td>
+                <td> <div class="btn btn-info">รายวิชาที่ {{ i+1 }}</div><br>{{ subject_id[i] }} <br> วิชา {{ subject_name[i] }}</td>
             </tr>
             {% endfor %}
             </tbody>
         </table>
 
     </div>
+    <br/>
+    <div class="container" style="text-align: center">
+        <h4>Tech Stacks</h4>
+        {% for file in images_file %}
+            <img src="{{ url_for('static', filename=file) }}" style="height:60px;padding:10px"/>
+        {% endfor %}
+    </div>
 </div>
 </body>
+<footer>
+    <div class="footer" style="text-align: center">
+        Made by APlus+ (Owner of 24Batch/ECx)
+        <br/>
+    </div>
+</footer>
 </html>

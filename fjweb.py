@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask, render_template
 
 from webdriver import fujian
@@ -152,7 +154,7 @@ def getStudentEnroll_EDUYEAR_TERM(student_id, eduyear, term):
 
 
 @app.route('/student/<student_id>', methods=['GET'])
-@cache.cached(timeout=50, key_prefix='page_<student_id>')
+@cache.cached(timeout=(60*5))
 def getStudentHTML(student_id):
     yearofstudent = str(student_id)[1:3]
     student_name = fujian.getstudent_name(student_id)
@@ -175,6 +177,12 @@ def getStudentHTML(student_id):
     else:
         calculate = (int(now.year + 543) % 100) - (int(yearofstudent))
 
+    images_file = []
+    for filename in os.listdir('static/img/tech'):
+        if filename.endswith(".png") or filename.endswith(".jpg"):
+            images_file.append(os.path.join('img/tech', filename))
+        else:
+            continue
     return render_template('student.html',
                            degree=degree,
                            yr=calculate,
@@ -185,7 +193,7 @@ def getStudentHTML(student_id):
                            student_id=student_id,
                            institute=institute,
                            minor=minor,
-                           assistant=assistant)
+                           assistant=assistant,images_file=images_file)
 
 
 if __name__ == '__main__':
