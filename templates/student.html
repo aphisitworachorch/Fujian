@@ -7,22 +7,42 @@
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@200;500&display=swap" rel="stylesheet">
-    <meta property="og:title" content="福建 Python SUT REG Scraper" />
-    <meta property="og:type" content="website" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1YPY0Q4T6W"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-1YPY0Q4T6W');
+    </script>
+    <meta property="og:title" content="福建 Python SUT REG Scraper"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:image"
+          content="{{ request.host_url }}{{ url_for('static', filename='img/header/fujianog.png') }}"/>
+    <meta property="og:image:url"
+          content="{{ request.host_url }}{{ url_for('static', filename='img/header/fujianog.png') }}"/>
 </head>
 <style>
     * {
         font-family: 'Sarabun', sans-serif;
     }
-    h1,h2,h3,h4,h5 {
+
+    h1, h2, h3, h4, h5 {
         font-weight: 500;
     }
-    p,table,tr,td,th,thead,tbody {
+
+    p, table, tr, td, th, thead, tbody {
         font-weight: 200;
     }
 </style>
 <body>
-<div class="container-fluid" style="background-color:red;color:white;text-align: center;padding:-20px;position:fixed;overflow:auto;top:0;left:0;">
+<div class="container-fluid"
+     style="background-color:red;color:white;text-align: center;padding:-20px;position:fixed;overflow:auto;top:0;left:0;">
     <p>Alpha Period since End-of-2020</p>
 </div>
 <br/>
@@ -39,10 +59,11 @@
         <hr>
         <div class="row" style="top:0;">
             <div class="col-6">
-                <h3>นักศึกษาชั้นปีที่</h3> <br/> <h2>{{ yr }}</h2>
+                <h3>นักศึกษาชั้นปีที่</h3>
+                <h2 style="font-size:90px">{{ yr }}</h2>
             </div>
             <div class="col-6">
-                <h3>ระดับการศึกษา</h3> <br/> <h4>{{ degree }}</h4>
+                <h3>ระดับการศึกษา</h3> <h4 style="font-size:45px">{{ degree }}</h4>
             </div>
         </div>
         <hr>
@@ -75,9 +96,11 @@
             </thead>
             <tbody>
             {% for i in range(0,lensub) %}
-            <tr>
-                <td> <div class="btn btn-info">รายวิชาที่ {{ i+1 }}</div><br>{{ subject_id[i] }} <br> วิชา {{ subject_name[i] }}</td>
-            </tr>
+                <tr>
+                    <td>
+                        <div class="btn btn-info">รายวิชาที่ {{ i+1 }}</div>
+                        <br>{{ subject_id[i] }} <br> วิชา {{ subject_name[i] }}</td>
+                </tr>
             {% endfor %}
             </tbody>
         </table>

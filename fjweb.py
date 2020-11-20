@@ -1,6 +1,8 @@
 import os
+import random
 
-from flask import Flask, render_template
+from flask import Flask, render_template, json
+from werkzeug.exceptions import HTTPException
 
 from webdriver import fujian
 from flask import jsonify
@@ -101,9 +103,9 @@ def getStudentEnroll_EDUYEAR(student_id, eduyear):
         "year_of_student": calculate
     }
 
-    redis_data = cache.get(student_id+'_eduyear_'+eduyear)
+    redis_data = cache.get(student_id + '_eduyear_' + eduyear)
     if redis_data is None:
-        cache.set(student_id+'_eduyear_'+eduyear, data)
+        cache.set(student_id + '_eduyear_' + eduyear, data)
         return jsonify(data)
     else:
         return jsonify(redis_data)
@@ -145,16 +147,16 @@ def getStudentEnroll_EDUYEAR_TERM(student_id, eduyear, term):
         "year_of_student": calculate
     }
 
-    redis_data = cache.get(student_id+'_eduyear_'+eduyear+'_term_'+term)
+    redis_data = cache.get(student_id + '_eduyear_' + eduyear + '_term_' + term)
     if redis_data is None:
-        cache.set(student_id+'_eduyear_'+eduyear+'_term_'+term, data)
+        cache.set(student_id + '_eduyear_' + eduyear + '_term_' + term, data)
         return jsonify(data)
     else:
         return jsonify(redis_data)
 
 
 @app.route('/student/<student_id>', methods=['GET'])
-@cache.cached(timeout=(60*5))
+@cache.cached(timeout=(60 * 5))
 def getStudentHTML(student_id):
     yearofstudent = str(student_id)[1:3]
     student_name = fujian.getstudent_name(student_id)
@@ -193,7 +195,26 @@ def getStudentHTML(student_id):
                            student_id=student_id,
                            institute=institute,
                            minor=minor,
-                           assistant=assistant,images_file=images_file)
+                           assistant=assistant, images_file=images_file)
+
+
+@app.errorhandler(HTTPException)
+def handle_exception(e):
+    error_link = ['https://www.youtube.com/embed/7Hvkhh4GaI0?controls=0&autoplay=1',
+                  'https://www.youtube.com/embed/PFygXz-Y0zA?controls=0&autoplay=1',
+                  'https://www.youtube.com/embed/wpHlagmXzxY?controls=0&autoplay=1',
+                  'https://www.youtube.com/embed/v5aepf1t5CU?controls=0&autoplay=1',
+                  'https://www.youtube.com/embed/u06GqlNiJUY?controls=0&autoplay=1',
+                  'https://www.youtube.com/embed/ztxs6nixsaI?controls=0&autoplay=1',
+                  'https://www.youtube.com/embed/1iqd-AL6soE?controls=0&autoplay=1',
+                  'https://www.youtube.com/embed/-OAPdG8sgLs?controls=0&autoplay=1&start=166',
+                  'https://www.youtube.com/embed/0GFKs17cjWs?controls=0&autoplay=1',
+                  'https://www.youtube.com/embed/pAP9qcjPvtE?controls=0&autoplay=1',
+                  'https://www.youtube.com/embed/k2CXu4K40bg?controls=0&autoplay=1',
+                  'https://www.youtube.com/embed/hmj-RT3S-d4?controls=0&autoplay=1&start=5',
+                  'https://www.youtube.com/embed/0QYGWXEXZwU?controls=0&autoplay=1']
+    rd = random.randint(0, len(error_link) - 1)
+    return render_template('error.html', error_link=error_link[rd]), 777
 
 
 if __name__ == '__main__':
