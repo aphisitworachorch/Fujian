@@ -200,21 +200,22 @@ def getStudentHTML(student_id):
 
 @app.errorhandler(HTTPException)
 def handle_exception(e):
-    error_link = ['https://www.youtube.com/embed/7Hvkhh4GaI0?controls=0&autoplay=1',
-                  'https://www.youtube.com/embed/PFygXz-Y0zA?controls=0&autoplay=1',
-                  'https://www.youtube.com/embed/wpHlagmXzxY?controls=0&autoplay=1',
-                  'https://www.youtube.com/embed/v5aepf1t5CU?controls=0&autoplay=1',
-                  'https://www.youtube.com/embed/u06GqlNiJUY?controls=0&autoplay=1',
-                  'https://www.youtube.com/embed/ztxs6nixsaI?controls=0&autoplay=1',
-                  'https://www.youtube.com/embed/1iqd-AL6soE?controls=0&autoplay=1',
-                  'https://www.youtube.com/embed/-OAPdG8sgLs?controls=0&autoplay=1&start=166',
-                  'https://www.youtube.com/embed/0GFKs17cjWs?controls=0&autoplay=1',
-                  'https://www.youtube.com/embed/pAP9qcjPvtE?controls=0&autoplay=1',
-                  'https://www.youtube.com/embed/k2CXu4K40bg?controls=0&autoplay=1',
-                  'https://www.youtube.com/embed/hmj-RT3S-d4?controls=0&autoplay=1&start=5',
-                  'https://www.youtube.com/embed/0QYGWXEXZwU?controls=0&autoplay=1']
+    # error_link = ['https://www.youtube.com/embed/7Hvkhh4GaI0?controls=0&autoplay=1',
+    #               'https://www.youtube.com/embed/PFygXz-Y0zA?controls=0&autoplay=1',
+    #               'https://www.youtube.com/embed/wpHlagmXzxY?controls=0&autoplay=1',
+    #               'https://www.youtube.com/embed/v5aepf1t5CU?controls=0&autoplay=1',
+    #               'https://www.youtube.com/embed/u06GqlNiJUY?controls=0&autoplay=1',
+    #               'https://www.youtube.com/embed/ztxs6nixsaI?controls=0&autoplay=1',
+    #               'https://www.youtube.com/embed/1iqd-AL6soE?controls=0&autoplay=1',
+    #               'https://www.youtube.com/embed/-OAPdG8sgLs?controls=0&autoplay=1&start=166',
+    #               'https://www.youtube.com/embed/0GFKs17cjWs?controls=0&autoplay=1',
+    #               'https://www.youtube.com/embed/pAP9qcjPvtE?controls=0&autoplay=1',
+    #               'https://www.youtube.com/embed/k2CXu4K40bg?controls=0&autoplay=1',
+    #               'https://www.youtube.com/embed/hmj-RT3S-d4?controls=0&autoplay=1&start=5',
+    #               'https://www.youtube.com/embed/0QYGWXEXZwU?controls=0&autoplay=1']
+    error_link = ['https://www.youtube.com/embed/aAkMkVFwAoo?controls=0&autoplay=1']
     rd = random.randint(0, len(error_link) - 1)
-    return render_template('error.html', error_link=error_link[rd]), 777
+    return render_template('error.html', error_link=error_link[rd], log=e), 777
 
 
 if __name__ == '__main__':
