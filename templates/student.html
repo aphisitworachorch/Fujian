@@ -50,7 +50,9 @@
 <div class="container py-2 animate__animated animate__fadeIn">
     <div class="row">
         <div class="col-lg-2">
-            <div id="profileBox" style="background-color:black;height:100%;">Test</div>
+            <div id="profileBox" style="height:100%;text-align: center">
+                <canvas id="clock1_" width="200px" height="180px"></canvas>
+            </div>
         </div>
         <div class="col-lg-10">
             <div class="shadow" style="height:100%;padding:10px;">
@@ -134,8 +136,44 @@
         </table>
     </div>
 </div>
+<div class="container py-1 animate__animated animate__fadeInUp" style="text-align: center">
+    <div class="btn btn-info" id="credit">
+        สาสน์จากผู้พัฒนาระบบ
+    </div>
+    <br/>
+    <div class="container" style="text-align: center">
+        <h4>Tech Stacks</h4>
+        {% for file in images_file %}
+            <img src="{{ url_for('static', filename=file) }}" style="height:60px;padding:10px"/>
+        {% endfor %}
+    </div>
+</div>
 </body>
+<style>
+    .swal2-popup {
+        font-size: 0.9em !important;
+        width: 40%;
+    }
+</style>
+<script src="{{ url_for('static', filename='js/polyfill.js') }}" type="application/javascript"></script>
+<script src="{{ url_for('static', filename='js/canvas_clock.js') }}" type="application/javascript"></script>
+<script src="{{ url_for('static', filename='js/sweetalert2.js') }}" type="application/javascript"></script>
 <script>
+    let clockd1_= {
+          "indicate": true,
+          "indicate_color": "#222",
+          "dial1_color": "#666600",
+          "dial2_color": "#81812e",
+          "dial3_color": "#9d9d5c",
+          "time_add": 1,
+          "time_24h": true,
+          "date_add":3,
+          "date_add_color": "#999",
+         };
+    let clock = document.getElementById('clock1_');
+    let clock_canv = clock.getContext('2d');
+    clock_conti(200,clock_canv,clock);
+
     let doc = document.getElementById("student_id");
     let person = document.getElementById("personalInfo");
     let profileBox = document.getElementById("profileBox");
@@ -155,6 +193,22 @@
             person.style.display = 'none';
         }
     });
+</script>
+<script>
+    let credit = document.getElementById('credit');
+    if(credit){
+        credit.addEventListener('click',()=>{
+            Swal.fire({
+                title:"สาสน์จากผู้พัฒนาเครื่องมือ Fujian",
+                html:"<div style='text-align: left'>" +
+                    "ขอกราบขอบพระคุณศูนย์บริการการศึกษามหาวิทยาลัยเทคโนโลยีสุรนารี<br/>ในการให้บริการเว็บลงทะเบียนสำหรับนักศึกษาเป็นอย่างยิ่งนะครับ" +
+                    "<br/>เว็บไซต์นี้ถูกพัฒนาโดยผม ผู้ซึ่งเป็นอดีตนักศึกษา " +
+                    "สาขาวิชาเทคโนโลยีสารสนเทศ หลักสูตร ซอฟต์แวร์วิสาหกิจ มหาวิทยาลัยเทคโนโลยีสุรนารี</br>"+
+                    "</div>",
+                icon:"info"
+            });
+        })
+    }
 </script>
 <footer>
     <div class="footer" style="text-align: center">
