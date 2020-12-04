@@ -23,3 +23,4 @@ soupsieve
 times
 urllib3
 Werkzeug
+Flask-Selfdoc

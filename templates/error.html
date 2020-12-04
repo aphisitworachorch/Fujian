@@ -8,11 +8,10 @@
     <link href="{{ url_for('static', filename='css/plyr.css') }}" rel="stylesheet">
     <script src="{{ url_for('static', filename='js/plyr.js') }}"></script>
     <script src="{{ url_for('static', filename='js/plyr.polyfilled.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/canvas_clock.js') }}"></script>
 </head>
 <body>
 <div class="container" style="text-align: center">
-    <h1>HTTP Status Code 777</h1>
+    <h1>HTTP Status Code {{ error_code }}</h1>
     <h2>Not Found / Errors</h2>
     <div class="container py-2">
         <div class="plyr__video-embed" id="player">

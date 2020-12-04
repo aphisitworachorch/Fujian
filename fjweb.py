@@ -2,6 +2,7 @@ import os
 import random
 
 from flask import Flask, render_template, json
+from flask_selfdoc import Autodoc
 from werkzeug.exceptions import HTTPException
 
 from webdriver import fujian
@@ -12,6 +13,7 @@ import datetime
 import redis
 
 app = Flask(__name__)
+auto = Autodoc(app)
 r = redis.Redis(host=redis)
 
 cache = Cache(app, config={
@@ -27,6 +29,7 @@ def hello_world():
 
 
 @app.route('/student/<student_id>', methods=['POST'])
+@auto.doc()
 def getStudentEnroll(student_id):
     yearofstudent = str(student_id)[1:3]
     student_name = fujian.getstudent_name(student_id)
@@ -69,6 +72,7 @@ def getStudentEnroll(student_id):
 
 
 @app.route('/student/<student_id>/<eduyear>', methods=['POST'])
+@auto.doc()
 def getStudentEnroll_EDUYEAR(student_id, eduyear):
     yearofstudent = str(student_id)[1:3]
     student_name = fujian.getstudent_name(student_id)
@@ -112,6 +116,7 @@ def getStudentEnroll_EDUYEAR(student_id, eduyear):
 
 
 @app.route('/student/<student_id>/<eduyear>/<term>', methods=['POST'])
+@auto.doc()
 def getStudentEnroll_EDUYEAR_TERM(student_id, eduyear, term):
     yearofstudent = str(student_id)[1:3]
     student_name = fujian.getstudent_name(student_id)
@@ -200,22 +205,28 @@ def getStudentHTML(student_id):
 
 @app.errorhandler(HTTPException)
 def handle_exception(e):
-    # error_link = ['https://www.youtube.com/embed/7Hvkhh4GaI0?controls=0&autoplay=1',
-    #               'https://www.youtube.com/embed/PFygXz-Y0zA?controls=0&autoplay=1',
-    #               'https://www.youtube.com/embed/wpHlagmXzxY?controls=0&autoplay=1',
-    #               'https://www.youtube.com/embed/v5aepf1t5CU?controls=0&autoplay=1',
-    #               'https://www.youtube.com/embed/u06GqlNiJUY?controls=0&autoplay=1',
-    #               'https://www.youtube.com/embed/ztxs6nixsaI?controls=0&autoplay=1',
-    #               'https://www.youtube.com/embed/1iqd-AL6soE?controls=0&autoplay=1',
-    #               'https://www.youtube.com/embed/-OAPdG8sgLs?controls=0&autoplay=1&start=166',
-    #               'https://www.youtube.com/embed/0GFKs17cjWs?controls=0&autoplay=1',
-    #               'https://www.youtube.com/embed/pAP9qcjPvtE?controls=0&autoplay=1',
-    #               'https://www.youtube.com/embed/k2CXu4K40bg?controls=0&autoplay=1',
-    #               'https://www.youtube.com/embed/hmj-RT3S-d4?controls=0&autoplay=1&start=5',
-    #               'https://www.youtube.com/embed/0QYGWXEXZwU?controls=0&autoplay=1']
-    error_link = ['https://www.youtube.com/embed/aAkMkVFwAoo?controls=0&autoplay=1']
+    error_link = ['https://www.youtube.com/embed/7Hvkhh4GaI0?controls=0&autoplay=1',
+                  'https://www.youtube.com/embed/PFygXz-Y0zA?controls=0&autoplay=1',
+                  'https://www.youtube.com/embed/wpHlagmXzxY?controls=0&autoplay=1',
+                  'https://www.youtube.com/embed/v5aepf1t5CU?controls=0&autoplay=1',
+                  'https://www.youtube.com/embed/u06GqlNiJUY?controls=0&autoplay=1',
+                  'https://www.youtube.com/embed/ztxs6nixsaI?controls=0&autoplay=1',
+                  'https://www.youtube.com/embed/1iqd-AL6soE?controls=0&autoplay=1',
+                  'https://www.youtube.com/embed/-OAPdG8sgLs?controls=0&autoplay=1&start=166',
+                  'https://www.youtube.com/embed/0GFKs17cjWs?controls=0&autoplay=1',
+                  'https://www.youtube.com/embed/pAP9qcjPvtE?controls=0&autoplay=1',
+                  'https://www.youtube.com/embed/k2CXu4K40bg?controls=0&autoplay=1',
+                  'https://www.youtube.com/embed/hmj-RT3S-d4?controls=0&autoplay=1&start=5',
+                  'https://www.youtube.com/embed/0QYGWXEXZwU?controls=0&autoplay=1']
+    # error_link = ['https://www.youtube.com/embed/uefcQzHmA_Y?controls=0&autoplay=1']
     rd = random.randint(0, len(error_link) - 1)
-    return render_template('error.html', error_link=error_link[rd], log=e), 777
+    error_random = random.randint(100, rd - 999)
+    return render_template('error.html', error_link=error_link[rd], log=e, error_code=error_random), int(error_random)
+
+
+@app.route('/documentation')
+def documentation():
+    return auto.html()
 
 
 if __name__ == '__main__':
