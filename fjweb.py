@@ -220,7 +220,7 @@ def handle_exception(e):
                   'https://www.youtube.com/embed/0QYGWXEXZwU?controls=0&autoplay=1']
     # error_link = ['https://www.youtube.com/embed/uefcQzHmA_Y?controls=0&autoplay=1']
     rd = random.randint(0, len(error_link) - 1)
-    error_random = random.randint(100, rd - 999)
+    error_random = random.randint(100, 600)
     return render_template('error.html', error_link=error_link[rd], log=e, error_code=error_random), int(error_random)
 
 
