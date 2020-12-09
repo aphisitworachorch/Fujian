@@ -1,7 +1,8 @@
 import os
 import random
+from typing import Dict
 
-from flask import Flask, render_template, json
+from flask import Flask, render_template, json, request
 from flask_selfdoc import Autodoc
 from werkzeug.exceptions import HTTPException
 from markupsafe import escape
@@ -118,7 +119,7 @@ def getStudentEnroll_EDUYEAR(student_id, eduyear):
 
 @app.route('/student/<student_id>/<int:eduyear>/<int:term>', methods=['POST'])
 @auto.doc()
-def getStudentEnroll_EDUYEAR_TERM(student_id, eduyear, term):
+def getStudentEnroll_EDUYEAR_TERM(student_id, eduyear, term) -> json:
     yearofstudent = str(student_id)[1:3]
     student_name = fujian.getstudent_name(student_id)
     student_id = student_id
@@ -225,9 +226,195 @@ def handle_exception(e):
     return render_template('error.html', error_link=error_link[rd], log=e, error_code=error_random), int(error_random)
 
 
+def botGetStudent(student_id):
+    yearofstudent = str(student_id)[1:3]
+    student_name = fujian.getstudent_name(student_id)
+    student_id = student_id
+    prefix = str(fujian.identifyStudentID(student_id)["number"])
+    degree = str(fujian.identifyStudentID(student_id)["degree"])
+    fetchstudent_info = fujian.fetchall(prefix + "" + str(student_id)[1:10])
+    subject_id = fujian.getstudentenrollment_id(fetchstudent_info)
+    raw_student = fujian.getstudentenrollment_raw(fetchstudent_info)
+    subject = fujian.getsanit_subject_without_groupnum(subject_id)
+    subject_name = fujian.getstudentenrollment_name(fetchstudent_info)
+    institute = fujian.getinstitute(raw_student)
+    minor = fujian.getminor(raw_student)
+    assistant = fujian.getassistant(raw_student)
+
+    calculate = 0
+    now = datetime.datetime.now()
+    if (int(now.year + 543) % 100) - (int(yearofstudent)) <= 0:
+        calculate = 1
+    else:
+        calculate = (int(now.year + 543) % 100) - (int(yearofstudent))
+
+    data = {
+        "student_id": student_id,
+        "student_name": student_name,
+        "institute": institute,
+        "minor": minor,
+        "assistant": assistant,
+        "enroll_subjects": subject_id,
+        "enroll_subjects_name": subject_name,
+        "year_of_student": calculate
+    }
+
+    redis_data = cache.get(student_id)
+    if redis_data is None:
+        cache.set(student_id, data)
+        return data
+    else:
+        return redis_data
+
+
+@app.route('/chatbot/webhook', methods=['POST'])
+def webhook() -> Dict:
+    response_body = []
+    request_body = request.get_json(force=True)
+    student_id = request_body['queryResult']['parameters']['student_id']
+    info = botGetStudent(student_id)
+    loop = 0
+    for subject in info['enroll_subjects']:
+        response_body.append({
+            "type": "text",
+            "text": "รายวิชาที่ " + str(loop + 1) + " " + str(subject) + " | " + str(info['enroll_subjects_name'][loop]),
+            "weight": "regular",
+            "size": "sm",
+            "align": "center",
+            "style": "normal",
+            "contents": []
+        })
+        loop = loop + 1
+
+    linedata = {
+        "line": {
+            "type": "flex",
+            "altText": "student",
+            "contents": {
+                "type": "bubble",
+                "body": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": "รายวิชาของนักศึกษารหัส " + info['student_id'],
+                            "weight": "bold",
+                            "size": "sm",
+                            "gravity": "center",
+                            "contents": []
+                        },
+                        {
+                            "type": "box",
+                            "layout": "vertical",
+                            "margin": "lg",
+                            "contents": [
+                                {
+                                    "type": "box",
+                                    "layout": "baseline",
+                                    "contents": [
+                                        {
+                                            "type": "text",
+                                            "text": "ชื่อ - นามสกุล",
+                                            "size": "sm",
+                                            "color": "#AAAAAA",
+                                            "contents": []
+                                        },
+                                        {
+                                            "type": "text",
+                                            "text": info['student_name'],
+                                            "size": "sm",
+                                            "color": "#666666",
+                                            "contents": []
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "box",
+                                    "layout": "baseline",
+                                    "contents": [
+                                        {
+                                            "type": "text",
+                                            "text": "สำนักวิชา",
+                                            "size": "sm",
+                                            "color": "#AAAAAA",
+                                            "contents": []
+                                        },
+                                        {
+                                            "type": "text",
+                                            "text": info['institute'],
+                                            "size": "sm",
+                                            "color": "#666666",
+                                            "contents": []
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "box",
+                                    "layout": "baseline",
+                                    "contents": [
+                                        {
+                                            "type": "text",
+                                            "text": "สาขาวิชา",
+                                            "size": "sm",
+                                            "color": "#AAAAAA",
+                                            "contents": []
+                                        },
+                                        {
+                                            "type": "text",
+                                            "text": info['minor'],
+                                            "size": "sm",
+                                            "color": "#666666",
+                                            "contents": []
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "type": "box",
+                            "layout": "vertical",
+                            "margin": "xxl",
+                            "contents": [
+                                {
+                                    "type": "spacer"
+                                },
+                                {
+                                    "type": "box",
+                                    "layout": "vertical",
+                                    "contents": response_body
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        }
+    }
+    payload = {}
+    payload.update(linedata)
+    response = app.response_class(
+        response=json.dumps({
+            "fulfillmentMessages":[
+                {
+                    "payload": payload,
+                    "platform": "LINE"
+                }
+            ]
+        }, sort_keys=False),
+        mimetype='application/json'
+    )
+    return response
+
+
 @app.route('/documentation')
 def documentation():
-    return auto.html()
+    return auto.html(
+        template='customdoc.html',
+        title='Fujian Documentation',
+        author='ARSANANDHA+',
+        content=auto.generate()
+    )
 
 
 if __name__ == '__main__':
