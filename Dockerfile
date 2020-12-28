@@ -23,6 +23,7 @@ ENV PATH="/home/$USER/.local/bin:${PATH}"
 # files to we don't need to reduce the container size
 COPY requirements.txt .
 RUN pip install \
+    --upgrade pip \
     --no-cache-dir \
     --no-warn-script-location \
     --user \

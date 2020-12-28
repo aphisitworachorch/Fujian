@@ -3,7 +3,7 @@ asn1crypto
 beautifulsoup4
 certifi
 cffi
-chardet
+chardet==3.0.2
 Click
 cryptography
 Flask
@@ -27,3 +27,11 @@ Flask-Selfdoc
 gunicorn
 MarkupSafe
 pyasn1
+pandas
+lxml
+html5lib
+fake-useragent
+Flask-Excel
+pyexcel-xlsx
+xlsxwriter
+fsspec

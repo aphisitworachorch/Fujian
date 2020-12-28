@@ -81,17 +81,17 @@
             </thead>
             <tbody>
             {% for i in range(0,lensub) %}
-                <tr>
-                    <td>
-                        {{ i + 1 }}
-                    </td>
-                    <td style="text-align: center;">
-                        {{ subject_id[i] }}
-                    </td>
-                    <td style="text-align: center;">
-                        วิชา {{ subject_name[i] }}
-                    </td>
-                </tr>
+            <tr>
+                <td>
+                    {{ i + 1 }}
+                </td>
+                <td style="text-align: center;">
+                    {{ subject_id[i] }}
+                </td>
+                <td style="text-align: center;">
+                    วิชา {{ subject_name[i] }}
+                </td>
+            </tr>
             {% endfor %}
             </tbody>
         </table>
@@ -105,12 +105,33 @@
     <div class="container" style="text-align: center">
         <h4>Tech Stacks</h4>
         {% for file in images_file %}
-            <img src="{{ url_for('static', filename=file) }}" style="height:60px;padding:10px"/>
+        <img src="{{ url_for('static', filename=file) }}" style="height:60px;padding:10px"/>
         {% endfor %}
     </div>
 </div>
 </body>
 <script src="{{ url_for('static', filename='js/app.js') }}" type="application/javascript"></script>
+<script>
+    let doc = document.getElementById("student_id");
+    let person = document.getElementById("personalInfo");
+
+    if (person && doc) {
+        person.style.display = "none";
+
+        doc.addEventListener("click", (evt) => {
+            person.classList.add('animate__animated');
+            if (person.style.display === 'none') {
+                person.classList.remove('animate__fadeOutDown');
+                person.classList.add('animate__fadeInUp');
+                person.style.display = 'block';
+            } else {
+                person.classList.remove('animate__fadeInUp');
+                person.classList.add('animate__fadeOutDown');
+                person.style.display = 'none';
+            }
+        });
+    }
+</script>
 <footer>
     <div class="footer">
         Made by APlus+ (Owner of 24Batch/ECx)

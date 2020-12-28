@@ -1,13 +1,18 @@
 # FUJIAN Discovery tool for SUT REG
 # !Python
-import datetime
 import re
 
 import requests
-from urllib.request import urlopen
 from bs4 import BeautifulSoup
+from fake_useragent import UserAgent
 
 info = []
+
+
+def getRandomHeaders():
+    ua = UserAgent()
+    headers = {'User-Agent': str(ua)}
+    return headers
 
 
 def identifyStudentID(studentid):
@@ -43,22 +48,24 @@ def identifyStudentID(studentid):
 
 
 def fetchall(studentid):
-    require_page = 'https://reg.sut.ac.th/registrar/learn_time.asp?studentid=' + studentid + '&f_cmd=2'
+    require_page = 'https://reg.sut.ac.th/registrar/learn_time.asp?studentid=' + str(studentid) + '&f_cmd=2'
     return require_page
 
 
 def fetchall_eduyear(studentid, eduyear):
-    require_page = 'https://reg.sut.ac.th/registrar/learn_time.asp?studentid=' + studentid + '&f_cmd=2&acadyear=' + eduyear
+    require_page = 'https://reg.sut.ac.th/registrar/learn_time.asp?studentid=' + str(
+        studentid) + '&f_cmd=2&acadyear=' + str(eduyear)
     return require_page
 
 
 def fetchall_eduyear_term(studentid, eduyear, term):
-    require_page = 'https://reg.sut.ac.th/registrar/learn_time.asp?studentid=' + studentid + '&f_cmd=2&acadyear=' + eduyear + '&maxsemester=' + term
+    require_page = 'https://reg.sut.ac.th/registrar/learn_time.asp?studentid=' + str(
+        studentid) + '&f_cmd=2&acadyear=' + str(eduyear) + '&maxsemester=' + str(term)
     return require_page
 
 
 def urlreturn(stdid):
-    require_page = 'https://reg.sut.ac.th/registrar/learn_time.asp?studentid=' + stdid + '&f_cmd=2'
+    require_page = 'https://reg.sut.ac.th/registrar/learn_time.asp?studentid=' + str(stdid) + '&f_cmd=2'
     return require_page
 
 
@@ -72,7 +79,7 @@ def getstudent_name(stdid):
         departmentid="",
         programid="",
         f_maxrows="25"
-    ))
+    ), headers=getRandomHeaders())
     r.encoding = r.apparent_encoding
     sr = BeautifulSoup(r.text, 'html.parser')
 
@@ -91,8 +98,9 @@ def getstudent_name(stdid):
 
 def getstudentenrollment_id(url):
     data_id = []
-    page = urlopen(url)
-    webpage = BeautifulSoup(page, 'html.parser')
+    page = requests.get(url, headers=getRandomHeaders())
+    page.encoding = page.apparent_encoding
+    webpage = BeautifulSoup(page.text, 'html.parser')
     table_reg = webpage.find_all('tr', attrs={'valign': 'TOP'})
     for tb in table_reg:
         find_other_step = tb.find('font', attrs={'face': 'MS Sans Serif'})
@@ -104,8 +112,9 @@ def getstudentenrollment_id(url):
 
 def getstudentenrollment_name(url):
     data_name = []
-    page = urlopen(url)
-    webpage = BeautifulSoup(page, 'html.parser')
+    page = requests.get(url, headers=getRandomHeaders())
+    page.encoding = page.apparent_encoding
+    webpage = BeautifulSoup(page.text, 'html.parser')
     table_reg = webpage.find_all('tr', attrs={'valign': 'TOP'})
     for tb in table_reg:
         find_other_second_step = tb.find('font', attrs={'face': 'MS Sans Serif', 'size': '2'})
@@ -116,8 +125,9 @@ def getstudentenrollment_name(url):
 
 
 def getstudentenrollment_raw(url):
-    page = urlopen(url)
-    webpage = BeautifulSoup(page, 'html.parser')
+    page = requests.get(url, headers=getRandomHeaders())
+    page.encoding = page.apparent_encoding
+    webpage = BeautifulSoup(page.text, 'html.parser')
     web = webpage.find_all('font', attrs={'face': 'MS Sans Serif', 'size': '3'})
 
     lengthweb = len(web)
