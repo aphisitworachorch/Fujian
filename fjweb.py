@@ -64,7 +64,7 @@ def hello_world():
 def getStudentEnroll(student_id):
     yearofstudent = str(student_id)[1:3]
     hidden_name = fujian.getstudent_name(student_id)
-    student_name = obfuscator(hidden_name)
+    student_name = obfuscate(hidden_name)
     student_id = student_id
     prefix = str(fujian.identifyStudentID(student_id)["number"])
     degree = str(fujian.identifyStudentID(student_id)["degree"])
@@ -76,7 +76,7 @@ def getStudentEnroll(student_id):
     institute = fujian.getinstitute(raw_student)
     minor = fujian.getminor(raw_student)
     hidden_assistant = fujian.getassistant(raw_student)
-    assistant = obfuscator(hidden_assistant)
+    assistant = obfuscate(hidden_assistant)
 
     calculate = 0
     now = datetime.datetime.now()
@@ -109,7 +109,7 @@ def getStudentEnroll(student_id):
 def getStudentEnroll_EDUYEAR(student_id, eduyear):
     yearofstudent = str(student_id)[1:3]
     hidden_name = fujian.getstudent_name(student_id)
-    student_name = obfuscator(hidden_name)
+    student_name = obfuscate(hidden_name)
     student_id = student_id
     prefix = str(fujian.identifyStudentID(student_id)["number"])
     degree = str(fujian.identifyStudentID(student_id)["degree"])
@@ -121,7 +121,7 @@ def getStudentEnroll_EDUYEAR(student_id, eduyear):
     institute = fujian.getinstitute(raw_student)
     minor = fujian.getminor(raw_student)
     hidden_assistant = fujian.getassistant(raw_student)
-    assistant = obfuscator(hidden_assistant)
+    assistant = obfuscate(hidden_assistant)
 
     calculate = 0
     now = datetime.datetime.now()
@@ -155,7 +155,7 @@ def getStudentEnroll_EDUYEAR(student_id, eduyear):
 def getStudentEnroll_EDUYEAR_TERM(student_id, eduyear, term) -> json:
     yearofstudent = str(student_id)[1:3]
     hidden_name = fujian.getstudent_name(student_id)
-    student_name = obfuscator(hidden_name)
+    student_name = obfuscate(hidden_name)
     student_id = student_id
     prefix = str(fujian.identifyStudentID(student_id)["number"])
     degree = str(fujian.identifyStudentID(student_id)["degree"])
@@ -167,7 +167,7 @@ def getStudentEnroll_EDUYEAR_TERM(student_id, eduyear, term) -> json:
     institute = fujian.getinstitute(raw_student)
     minor = fujian.getminor(raw_student)
     hidden_assistant = fujian.getassistant(raw_student)
-    assistant = obfuscator(hidden_assistant)
+    assistant = obfuscate(hidden_assistant)
 
     calculate = 0
     now = datetime.datetime.now()
@@ -197,7 +197,7 @@ def getStudentEnroll_EDUYEAR_TERM(student_id, eduyear, term) -> json:
         return jsonify(redis_data)
 
 
-def obfuscator(object_name):
+def obfuscate(object_name):
     object_length = len(object_name)
     return ''.join(map(str, random.choices(object_name, k=random.randint(2,object_length)))) + ' [OBFUSCATED FOR PRIVACY]'
 
@@ -207,7 +207,7 @@ def obfuscator(object_name):
 def getStudentHTML(student_id):
     yearofstudent = str(student_id)[1:3]
     hidden_name = fujian.getstudent_name(student_id)
-    student_name = obfuscator(hidden_name)
+    student_name = obfuscate(hidden_name)
     student_id = student_id
     prefix = str(fujian.identifyStudentID(student_id)["number"])
     degree = str(fujian.identifyStudentID(student_id)["degree"])
@@ -219,7 +219,7 @@ def getStudentHTML(student_id):
     institute = fujian.getinstitute(raw_student)
     minor = fujian.getminor(raw_student)
     hidden_assistant = fujian.getassistant(raw_student)
-    assistant = obfuscator(hidden_assistant)
+    assistant = obfuscate(hidden_assistant)
 
     calculate = 0
     now = datetime.datetime.now()
@@ -273,7 +273,7 @@ def handle_exception(e):
 def botGetStudent(student_id):
     yearofstudent = str(student_id)[1:3]
     hidden_name = fujian.getstudent_name(student_id)
-    student_name = obfuscator(hidden_name)
+    student_name = obfuscate(hidden_name)
     student_id = student_id
     prefix = str(fujian.identifyStudentID(student_id)["number"])
     degree = str(fujian.identifyStudentID(student_id)["degree"])
@@ -285,7 +285,7 @@ def botGetStudent(student_id):
     institute = fujian.getinstitute(raw_student)
     minor = fujian.getminor(raw_student)
     hidden_assistant = fujian.getassistant(raw_student)
-    assistant = obfuscator(hidden_assistant)
+    assistant = obfuscate(hidden_assistant)
 
     calculate = 0
     now = datetime.datetime.now()
