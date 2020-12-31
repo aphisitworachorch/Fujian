@@ -1,28 +1,21 @@
+import datetime
 import gc
 import os
 import random
-import fsspec
-import sys
 from io import BytesIO
 from typing import Dict
 
-import pandas
+import pandas as pd
+import redis
 import urllib3
 from flask import Flask, render_template, json, request, send_file
-from flask_selfdoc import Autodoc
-from werkzeug.exceptions import HTTPException
-from markupsafe import escape
-from xlsxwriter import Workbook
-
-from webdriver import fujian
 from flask import jsonify
 from flask_caching import Cache
+from flask_selfdoc import Autodoc
 
-import datetime
-import redis
-import pandas as pd
-
+from webdriver import fujian
 from webdriver.brisbane import Brisbane
+from controller.fujian_core import FujianCore
 
 app = Flask(__name__)
 auto = Autodoc(app)
@@ -57,6 +50,12 @@ def hello_world():
     except:
         message = 'SUT Registrar System Unavailable'
         return render_template('landing.html', msg=message)
+
+
+def obfuscate(object_name):
+    object_length = len(object_name)
+    return ''.join(
+        map(str, random.choices(object_name, k=random.randint(2, object_length)))) + ' [OBFUSCATED FOR PRIVACY]'
 
 
 @app.route('/student/<student_id>', methods=['POST'])
@@ -197,11 +196,6 @@ def getStudentEnroll_EDUYEAR_TERM(student_id, eduyear, term) -> json:
         return jsonify(redis_data)
 
 
-def obfuscate(object_name):
-    object_length = len(object_name)
-    return ''.join(map(str, random.choices(object_name, k=random.randint(2,object_length)))) + ' [OBFUSCATED FOR PRIVACY]'
-
-
 @app.route('/student/<student_id>', methods=['GET'])
 @cache.cached(timeout=(60 * 5))
 def getStudentHTML(student_id):
@@ -262,7 +256,7 @@ def handle_exception(e):
     #               'https://www.youtube.com/embed/k2CXu4K40bg?controls=0&autoplay=1',
     #               'https://www.youtube.com/embed/hmj-RT3S-d4?controls=0&autoplay=1&start=5',
     #               'https://www.youtube.com/embed/0QYGWXEXZwU?controls=0&autoplay=1']
-    error_link = ['https://www.youtube.com/embed/XIRFdbIJV3k?controls=0&autoplay=1']
+    error_link = ['https://www.youtube.com/embed/AAfwbFirAz8?controls=0&autoplay=1']
     rd = random.randint(0, len(error_link) - 1)
     error_random = random.randint(100, 600)
     error_random_minus = random.randint(random.randint(1, 5), random.randint(10, 20))
@@ -572,4 +566,4 @@ def getExcelFile():
 
 
 if __name__ == '__main__':
-    app.run(debug=False, host='0.0.0.0', port=80)
+    app.run(debug=True, host='0.0.0.0', port=80)
