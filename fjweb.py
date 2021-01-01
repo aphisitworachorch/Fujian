@@ -52,49 +52,11 @@ def hello_world():
         return render_template('landing.html', msg=message)
 
 
-def obfuscate(object_name):
-    object_length = len(object_name)
-    return ''.join(
-        map(str, random.choices(object_name, k=random.randint(2, object_length)))) + ' [OBFUSCATED FOR PRIVACY]'
-
-
 @app.route('/student/<student_id>', methods=['POST'])
 @auto.doc()
 def getStudentEnroll(student_id):
-    yearofstudent = str(student_id)[1:3]
-    hidden_name = fujian.getstudent_name(student_id)
-    student_name = obfuscate(hidden_name)
-    student_id = student_id
-    prefix = str(fujian.identifyStudentID(student_id)["number"])
-    degree = str(fujian.identifyStudentID(student_id)["degree"])
-    fetchstudent_info = fujian.fetchall(prefix + "" + str(student_id)[1:10])
-    subject_id = fujian.getstudentenrollment_id(fetchstudent_info)
-    raw_student = fujian.getstudentenrollment_raw(fetchstudent_info)
-    subject = fujian.getsanit_subject_without_groupnum(subject_id)
-    subject_name = fujian.getstudentenrollment_name(fetchstudent_info)
-    institute = fujian.getinstitute(raw_student)
-    minor = fujian.getminor(raw_student)
-    hidden_assistant = fujian.getassistant(raw_student)
-    assistant = obfuscate(hidden_assistant)
-
-    calculate = 0
-    now = datetime.datetime.now()
-    if (int(now.year + 543) % 100) - (int(yearofstudent)) <= 0:
-        calculate = 1
-    else:
-        calculate = (int(now.year + 543) % 100) - (int(yearofstudent))
-
-    data = {
-        "student_id": student_id,
-        "student_name": student_name,
-        "institute": institute,
-        "minor": minor,
-        "assistant": assistant,
-        "enroll_subjects": subject_id,
-        "enroll_subjects_name": subject_name,
-        "year_of_student": calculate
-    }
-
+    fujian = FujianCore(student_id)
+    data = fujian.getStudentInfo()
     redis_data = cache.get(student_id)
     if redis_data is None:
         cache.set(student_id, data)
@@ -106,41 +68,8 @@ def getStudentEnroll(student_id):
 @app.route('/student/<student_id>/<int:eduyear>', methods=['POST'])
 @auto.doc()
 def getStudentEnroll_EDUYEAR(student_id, eduyear):
-    yearofstudent = str(student_id)[1:3]
-    hidden_name = fujian.getstudent_name(student_id)
-    student_name = obfuscate(hidden_name)
-    student_id = student_id
-    prefix = str(fujian.identifyStudentID(student_id)["number"])
-    degree = str(fujian.identifyStudentID(student_id)["degree"])
-    fetchstudent_info = fujian.fetchall_eduyear(prefix + "" + str(student_id)[1:10], eduyear)
-    subject_id = fujian.getstudentenrollment_id(fetchstudent_info)
-    raw_student = fujian.getstudentenrollment_raw(fetchstudent_info)
-    subject = fujian.getsanit_subject_without_groupnum(subject_id)
-    subject_name = fujian.getstudentenrollment_name(fetchstudent_info)
-    institute = fujian.getinstitute(raw_student)
-    minor = fujian.getminor(raw_student)
-    hidden_assistant = fujian.getassistant(raw_student)
-    assistant = obfuscate(hidden_assistant)
-
-    calculate = 0
-    now = datetime.datetime.now()
-    if (int(now.year + 543) % 100) - (int(yearofstudent)) <= 0:
-        calculate = 1
-    else:
-        calculate = (int(now.year + 543) % 100) - (int(yearofstudent))
-
-    data = {
-        "eduyear": eduyear,
-        "student_id": student_id,
-        "student_name": student_name,
-        "institute": institute,
-        "minor": minor,
-        "assistant": assistant,
-        "enroll_subjects": subject_id,
-        "enroll_subjects_name": subject_name,
-        "year_of_student": calculate
-    }
-
+    fujian = FujianCore(student_id, eduyear)
+    data = fujian.getStudentInfo()
     redis_data = cache.get(str(student_id) + '_eduyear_' + str(eduyear))
     if redis_data is None:
         cache.set(str(student_id) + '_eduyear_' + str(eduyear), data)
@@ -152,41 +81,8 @@ def getStudentEnroll_EDUYEAR(student_id, eduyear):
 @app.route('/student/<student_id>/<int:eduyear>/<int:term>', methods=['POST'])
 @auto.doc()
 def getStudentEnroll_EDUYEAR_TERM(student_id, eduyear, term) -> json:
-    yearofstudent = str(student_id)[1:3]
-    hidden_name = fujian.getstudent_name(student_id)
-    student_name = obfuscate(hidden_name)
-    student_id = student_id
-    prefix = str(fujian.identifyStudentID(student_id)["number"])
-    degree = str(fujian.identifyStudentID(student_id)["degree"])
-    fetchstudent_info = fujian.fetchall_eduyear_term(prefix + "" + str(student_id)[1:10], eduyear, term)
-    subject_id = fujian.getstudentenrollment_id(fetchstudent_info)
-    raw_student = fujian.getstudentenrollment_raw(fetchstudent_info)
-    subject = fujian.getsanit_subject_without_groupnum(subject_id)
-    subject_name = fujian.getstudentenrollment_name(fetchstudent_info)
-    institute = fujian.getinstitute(raw_student)
-    minor = fujian.getminor(raw_student)
-    hidden_assistant = fujian.getassistant(raw_student)
-    assistant = obfuscate(hidden_assistant)
-
-    calculate = 0
-    now = datetime.datetime.now()
-    if (int(now.year + 543) % 100) - (int(yearofstudent)) <= 0:
-        calculate = 1
-    else:
-        calculate = (int(now.year + 543) % 100) - (int(yearofstudent))
-
-    data = {
-        "eduyear": eduyear,
-        "term": term,
-        "student_id": student_id,
-        "student_name": student_name,
-        "institute": institute,
-        "minor": minor,
-        "assistant": assistant,
-        "enroll_subjects": subject_id,
-        "enroll_subjects_name": subject_name,
-        "year_of_student": calculate
-    }
+    fujian = FujianCore(student_id, eduyear, term)
+    data = fujian.getStudentInfo()
 
     redis_data = cache.get(str(student_id) + '_eduyear_' + str(eduyear) + '_term_' + str(term))
     if redis_data is None:
@@ -199,28 +95,8 @@ def getStudentEnroll_EDUYEAR_TERM(student_id, eduyear, term) -> json:
 @app.route('/student/<student_id>', methods=['GET'])
 @cache.cached(timeout=(60 * 5))
 def getStudentHTML(student_id):
-    yearofstudent = str(student_id)[1:3]
-    hidden_name = fujian.getstudent_name(student_id)
-    student_name = obfuscate(hidden_name)
-    student_id = student_id
-    prefix = str(fujian.identifyStudentID(student_id)["number"])
-    degree = str(fujian.identifyStudentID(student_id)["degree"])
-    fetchstudent_info = fujian.fetchall(prefix + "" + str(student_id)[1:10])
-    subject_id = fujian.getstudentenrollment_id(fetchstudent_info)
-    raw_student = fujian.getstudentenrollment_raw(fetchstudent_info)
-    subject = fujian.getsanit_subject_without_groupnum(subject_id)
-    subject_name = fujian.getstudentenrollment_name(fetchstudent_info)
-    institute = fujian.getinstitute(raw_student)
-    minor = fujian.getminor(raw_student)
-    hidden_assistant = fujian.getassistant(raw_student)
-    assistant = obfuscate(hidden_assistant)
-
-    calculate = 0
-    now = datetime.datetime.now()
-    if (int(now.year + 543) % 100) - (int(yearofstudent)) <= 0:
-        calculate = 1
-    else:
-        calculate = (int(now.year + 543) % 100) - (int(yearofstudent))
+    fujian = FujianCore(student_id)
+    data = fujian.getStudentInfo()
 
     images_file = []
     for filename in os.listdir('static/img/tech'):
@@ -229,16 +105,16 @@ def getStudentHTML(student_id):
         else:
             continue
     return render_template('student.html',
-                           degree=degree,
-                           yr=calculate,
-                           lensub=len(subject_id),
-                           subject_id=subject_id,
-                           subject_name=subject_name,
-                           student_name=student_name,
+                           degree=data.degree,
+                           yr=data.calculate,
+                           lensub=len(data.subject_id),
+                           subject_id=data.subject_id,
+                           subject_name=data.subject_name,
+                           student_name=data.student_name,
                            student_id=student_id,
-                           institute=institute,
-                           minor=minor,
-                           assistant=assistant, images_file=images_file)
+                           institute=data.institute,
+                           minor=data.minor,
+                           assistant=data.assistant, images_file=images_file)
 
 
 @app.errorhandler(Exception)
@@ -256,7 +132,7 @@ def handle_exception(e):
     #               'https://www.youtube.com/embed/k2CXu4K40bg?controls=0&autoplay=1',
     #               'https://www.youtube.com/embed/hmj-RT3S-d4?controls=0&autoplay=1&start=5',
     #               'https://www.youtube.com/embed/0QYGWXEXZwU?controls=0&autoplay=1']
-    error_link = ['https://www.youtube.com/embed/AAfwbFirAz8?controls=0&autoplay=1']
+    error_link = ['https://www.youtube.com/embed/IFcUBch8VNY?controls=0&autoplay=1']
     rd = random.randint(0, len(error_link) - 1)
     error_random = random.randint(100, 600)
     error_random_minus = random.randint(random.randint(1, 5), random.randint(10, 20))
@@ -265,39 +141,8 @@ def handle_exception(e):
 
 
 def botGetStudent(student_id):
-    yearofstudent = str(student_id)[1:3]
-    hidden_name = fujian.getstudent_name(student_id)
-    student_name = obfuscate(hidden_name)
-    student_id = student_id
-    prefix = str(fujian.identifyStudentID(student_id)["number"])
-    degree = str(fujian.identifyStudentID(student_id)["degree"])
-    fetchstudent_info = fujian.fetchall(prefix + "" + str(student_id)[1:10])
-    subject_id = fujian.getstudentenrollment_id(fetchstudent_info)
-    raw_student = fujian.getstudentenrollment_raw(fetchstudent_info)
-    subject = fujian.getsanit_subject_without_groupnum(subject_id)
-    subject_name = fujian.getstudentenrollment_name(fetchstudent_info)
-    institute = fujian.getinstitute(raw_student)
-    minor = fujian.getminor(raw_student)
-    hidden_assistant = fujian.getassistant(raw_student)
-    assistant = obfuscate(hidden_assistant)
-
-    calculate = 0
-    now = datetime.datetime.now()
-    if (int(now.year + 543) % 100) - (int(yearofstudent)) <= 0:
-        calculate = 1
-    else:
-        calculate = (int(now.year + 543) % 100) - (int(yearofstudent))
-
-    data = {
-        "student_id": student_id,
-        "student_name": student_name,
-        "institute": institute,
-        "minor": minor,
-        "assistant": assistant,
-        "enroll_subjects": subject_id,
-        "enroll_subjects_name": subject_name,
-        "year_of_student": calculate
-    }
+    fujian = FujianCore(student_id)
+    data = fujian.getStudentInfo()
 
     redis_data = cache.get(student_id)
     gc.collect()
