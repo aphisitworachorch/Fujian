@@ -105,16 +105,16 @@ def getStudentHTML(student_id):
         else:
             continue
     return render_template('student.html',
-                           degree=data.degree,
-                           yr=data.calculate,
-                           lensub=len(data.subject_id),
-                           subject_id=data.subject_id,
-                           subject_name=data.subject_name,
-                           student_name=data.student_name,
+                           degree=data['degree'],
+                           yr=data['graduated_for'],
+                           lensub=len(data['enroll_subjects']),
+                           subject_id=data['enroll_subjects'],
+                           subject_name=data['enroll_subjects_name'],
+                           student_name=data['student_name'],
                            student_id=student_id,
-                           institute=data.institute,
-                           minor=data.minor,
-                           assistant=data.assistant, images_file=images_file)
+                           institute=data['institute'],
+                           minor=data['minor'],
+                           assistant=data['assistant'], images_file=images_file)
 
 
 @app.errorhandler(Exception)
@@ -292,6 +292,19 @@ def webhook() -> Dict:
                 "altText": "จำนวนนักศึกษา",
                 "contents": {
                     "type": "bubble",
+                    "hero": {
+                        "type": "image",
+                        "url": "https://cloud.arsanandha.xyz/static/img/header/fujianog.png",
+                        "align": "center",
+                        "size": "full",
+                        "aspectRatio": "20:13",
+                        "aspectMode": "cover",
+                        "action": {
+                            "type": "uri",
+                            "label": "Action",
+                            "uri": "https://cloud.arsanandha.xyz/"
+                        }
+                    },
                     "body": {
                         "type": "box",
                         "layout": "vertical",
@@ -378,11 +391,11 @@ def documentation():
 @app.route('/getstudent', methods=['GET'])
 @cache.cached(timeout=86400)
 def getStd():
-    bx = Brisbane(2563, term, 1, 3)
+    bx = Brisbane(2563, term, 1, 3, 'get_student')
     redis_data = studentcache.get('info_term_' + str(term))
     gc.collect()
     if redis_data is None:
-        data = bx.get()
+        data = bx.get_student_info()
         studentcache.set('info_term_' + str(term), data)
         studentcache.set('info_term_count_' + str(term), len(data))
         return render_template('student_count.html', student_count=len(data))

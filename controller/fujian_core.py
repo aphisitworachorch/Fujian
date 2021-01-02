@@ -1,7 +1,6 @@
 import random
 
 from webdriver import fujian
-from webdriver.brisbane import Brisbane
 import datetime
 
 
@@ -16,7 +15,7 @@ class FujianCore:
         self.degree = str(fujian.identifyStudentID(self.student_id)["degree"])
         self.preformat_student_id = self.prefix + "" + str(self.student_id)[1:10]
         self.cloak = information_cloak
-        self.ground_zero = [student_id, eduyear, term,information_cloak]
+        self.ground_zero = [student_id, eduyear, term, information_cloak, self.degree]
         if eduyear is not None:
             self.fetchstudent_info = fujian.fetchall_eduyear(self.preformat_student_id, eduyear)
         elif eduyear is not None and term is not None:
